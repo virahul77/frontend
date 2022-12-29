@@ -11,24 +11,47 @@ const MyEvDetail = ({event}) => {
   const navigate = useNavigate();
   const isPast = new Date(event.startDate)<Date.now();
 
-  console.log(event);
-  const [status,setStatus] = useState('Request to Join');
-  const getStatus = async ()=> {
+  // console.log(event);
+  const addToEvent = (eventId,userId)=>{
     if(!token) {return navigate('/login')}
-    const res = await fetch(`${backendUrl}/event/eventstatus/${event._id.toString()}`,{
-      method:'post',
-      headers:{'Content-Type':'application json',token:token}
+    const res = fetch(`${backendUrl}/event/myevent/adduser`,{
+        method:'put',
+        headers:{
+          'Content-Type':'application/json',
+            token:token
+        },
+        body:JSON.stringify({userId,eventId})
+    }).then(res=>res.json())
+    .then(data => {
+      console.log(data);
+      window.location.reload();
     })
-    const data = await res.json();
-    // console.log(data);
-    setStatus(data);
+    .catch(err=>console.log(err.message));
+  }
+  const deleteFromEvent = (eventId,userId)=> {
+    // console.log(eventId,userId);
+    if(!token) {return navigate('/login')}
+    fetch(`${backendUrl}/event/myevent/removeuser`,{
+        method:'delete',
+        headers:{
+          'Content-Type':'application/json',
+          token:token
+        },
+        body:JSON.stringify({userId,eventId})
+    }).then(res=>res.json())
+    .then(data => {
+      console.log(data);
+      window.location.reload();
+    })
+    .catch(err=>console.log(err.message));
+
   }
 
-  useEffect(()=>{
-    getStatus();
-  },[])
+  // useEffect(()=>{
+  //   getStatus();
+  // },[])
   return (
-    <div className=' mb-4'>
+    <div className='mb-4'>
       <div className='card w-60' style={{overflow:'hidden'}}>
         <img src={event.image} alt="event pic" style={{height:'500px'}} />
         <div className='card-body'>
@@ -44,10 +67,10 @@ const MyEvDetail = ({event}) => {
                 {/* <li className="list-group-item">An item</li> */}
                 {event?.pending?.map(user=>{
                     return (
-                        <div class="input-group mb-3">
+                        <div className="input-group mb-3" key={user._id}>
                             <span type="text" className="form-control" value={user.username}>{user.username}</span>
-                            <button className="btn btn-outline-success mx-3" type="button">Confirm</button>
-                            <button className="btn btn-outline-danger" type="button">Cancel</button>
+                            <button className="btn btn-outline-success mx-3" type="button" onClick={()=>addToEvent(event._id,user._id)}>Confirm</button>
+                            <button className="btn btn-outline-danger" type="button" onClick={()=>deleteFromEvent(event._id,user._id)}>Cancel</button>
                         </div>
                     )
                 })}
@@ -60,10 +83,8 @@ const MyEvDetail = ({event}) => {
                 {/* <li className="list-group-item">An item</li> */}
                 {event?.currentParticipants?.map(user=>{
                     return (
-                        <div class="input-group mb-3">
+                        <div className="input-group mb-3" key={user._id}>
                             <span type="text" className="form-control" value={user.username}>{user.username}</span>
-                            <button className="btn btn-outline-success mx-3" type="button">Confirm</button>
-                            <button className="btn btn-outline-danger" type="button">Cancel</button>
                         </div>
                     )
                 })}

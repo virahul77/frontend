@@ -3,19 +3,22 @@ import NavBar from './NavBar'
 import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
 import { backendUrl } from '../App';
+import PartEventDetails from './PartEventDetails';
 
 const Participate = () => {
   const token = useSelector(state=> state.token);
   const navigate = useNavigate();
   const [partEvents,setPartEvents] = useState([]);
-  const getParticipatedEvents = async()=> {
+  const getParticipatedEvents = ()=> {
     if(!token) return navigate('/login');
-    const res = await fetch(`${backendUrl}/event/participated`,{
-      headers:{'Content-Type':'application json',token:token}
+    fetch(`${backendUrl}/event/participated`,{
+      headers:{token:token}
+    }).then(res => res.json())
+    .then(data => {
+      // console.log(data);
+      setPartEvents(data);
     })
-    const data = await res.json();
-    console.log(data);
-    // setEvents(data)
+    .catch(err=>console.log(err.message))
   }
 
   useEffect(()=>{
@@ -28,7 +31,9 @@ const Participate = () => {
       <div className="container mt-3">
         <h2 className='mb-3'>Your Participated Events</h2>
 
-
+        {partEvents.map(eventId=>{
+          return <PartEventDetails eventId={eventId} key={eventId}/>
+        })}
 
 
         {partEvents.length===0 && <h5>No participated events</h5>}
