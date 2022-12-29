@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { backendUrl } from '../App';
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import NavBar from './NavBar';
+import Login from './Login';
 
 const CreateEvent = () => {
-//   const user = useSelector(state=>state.user);
   const navigate = useNavigate();
 
   const token = useSelector(state=>state.token);
+  const user = useSelector(state=>state.user);
+
   const [eventName,setEventName] = useState('cricket');
   const [totalSeats,setTotalSeats] = useState('');
   const [description,setDescription] = useState('');
@@ -46,6 +48,9 @@ const CreateEvent = () => {
     console.log(data);
     alert('event created successfully');
   }
+  useEffect(()=>{
+    if(!token || !user) navigate('/login');
+  },[])
   return (
     <>
     <NavBar/>

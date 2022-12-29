@@ -13,6 +13,7 @@ export const backendUrl = process.env.backendUrl || 'http://localhost:5000';
 
 function App() {
   const token = useSelector(state=> state.token);
+  const user = useSelector(state=> state.user);
   const dispatch = useDispatch();
   const getUserInfo = async ()=> {
     try {
@@ -22,12 +23,14 @@ function App() {
           token: token
         },
       });
+      if(!res.ok) return;
       const data = await res.json();
+      // console.log(data);
       dispatch(addUser(data))
     } catch (error) {
       console.log(error.message,'error');
       dispatch(addUser(''));
-      dispatch(setToken(''))
+      dispatch(setToken(''));
       // return window.location.replace('/login');
     }
   }
@@ -39,10 +42,10 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={user?<Home />:<Login />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/createevent' element={<CreateEvent />} />
+          <Route path='/createevent' element={user?<CreateEvent />:<Login />} />
           <Route path='/myevents' element={<MyEvents />} />
           <Route path='/participate' element={<Participate />} />
           <Route path='/pending' element={<Pending />} />
