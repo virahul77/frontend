@@ -20,8 +20,8 @@ const SignUp = () => {
     if (password.length < 5) {
       return alert("username must be alteast 5 character long");
     }
-    console.log(username, password);
-    console.log(`${backendUrl}/user/register`);
+    // console.log(username, password);
+    // console.log(`${backendUrl}/user/register`);
 
     const res = await fetch(`${backendUrl}/user/register`, {
       method: "post",

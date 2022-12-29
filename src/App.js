@@ -9,7 +9,6 @@ import MyEvents from './components/MyEvents';
 import Participate from './components/Participate';
 import Pending from './components/Pending';
 import SignUp from './components/SignUp';
-import SingleEvent from './components/SingleEvent';
 import { addUser, setToken } from './redux/userSlice';
 export const backendUrl = 'https://sport-app-rahul77.onrender.com';
 
