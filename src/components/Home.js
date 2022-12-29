@@ -24,7 +24,7 @@ const Home = () => {
 
     if (data && data[0] && data[0]["_id"]) setEvents(data);
   };
-  console.log(allEvents);
+  // console.log(allEvents);
 
   useEffect(() => {
     fetchAllEvents();
