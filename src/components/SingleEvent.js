@@ -44,7 +44,7 @@ const SingleEvent = ({event}) => {
       headers:{'Content-Type':'application json',token:token}
     })
     const data = await res.json();
-    // console.log(data);
+    console.log(data);
     setStatus(data);
   }
 
@@ -52,9 +52,9 @@ const SingleEvent = ({event}) => {
     getStatus();
   },[])
   return (
-    <div className='col-md-3'>
-      <div className='card'>
-        <img src={event.image} alt="event pic" />
+    <div className='col-md-3 mb-4'>
+      <div className='card' style={{overflow:'hidden'}}>
+        <img src={event.image} alt="event pic" style={{height:'200px'}} />
         <div className='card-body'>
           <h5 className="card-title">{event.eventName}</h5>
           <p>Orgainsed by {event.createdBy.username}</p>

@@ -61,7 +61,7 @@ const Home = () => {
             Example search terms - cricket football vollyball
           </div>
         </div>
-        <div className="row d-flex justify-content-between">
+        <div className="row d-flex justify-content-start">
           {filteredEvents.map((event) => {
             return <SingleEvent key={event._id} event={event} />;
           })}
