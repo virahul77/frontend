@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 import { backendUrl } from '../App';
 import NavBar from './NavBar'
 import SingleEvent from './SingleEvent';
 
 const Pending = () => {
   const token = useSelector(state => state.token);
+  const navigate = useNavigate();
   const [events,setEvents] = useState([])
   const getMyPendingEvents = async ()=> {
+    if(!token) return navigate('/login');
     const res = await fetch(`${backendUrl}/event/pending`,{
       headers:{'Content-Type':'application json',token:token}
     })

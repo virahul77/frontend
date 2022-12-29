@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
+  const user = useSelector(state => state.user);
+  console.log(user);
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-primary text-light">
@@ -23,33 +26,33 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" href="/">
-                Rahul Vishwakarma
+                <Link className="nav-link active text-white" aria-current="page" href="/">
+                {user || 'Guest'}
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">
+                <Link className="nav-link text-white" to="/">
                   All Events
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/myevents">
+                <Link className="nav-link text-white" to="/myevents">
                   My Events
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/createevent">
+                <Link className="nav-link text-white" to="/createevent">
                   Create Event
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/participate">
+                <Link className="nav-link text-white" to="/participate">
                   Participated Events
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/pending">
-                  Requested
+                <Link className="nav-link text-white" to="/pending">
+                  Pending Events
                 </Link>
               </li>
             </ul>

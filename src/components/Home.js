@@ -42,22 +42,22 @@ const Home = () => {
       <NavBar />
       <div className="container mt-3">
         <h2>All Events</h2>
-        <div class="mb-3">
-          <label for="basic-url" class="form-label">
+        <div className="mb-3">
+          <label htmlFor="basic-url" className="form-label">
             Search by event name or organizer
           </label>
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon3">$</span>
+          <div className="input-group">
+            <span className="input-group-text" id="basic-addon3">$</span>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="basic-url"
               aria-describedby="basic-addon3"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div class="form-text">
+          <div className="form-text">
             Example search terms - cricket football vollyball
           </div>
         </div>

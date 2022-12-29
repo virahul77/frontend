@@ -8,7 +8,7 @@ import './SingleEvent.css';
 const SingleEvent = ({event}) => {
   const token = useSelector(state => state.token);
   const navigate = useNavigate();
-  console.log(event);
+  // console.log(event);
   const description = event.description;
   // console.log(description);
   const [status,setStatus] = useState('Request to Join');
@@ -19,7 +19,7 @@ const SingleEvent = ({event}) => {
         headers:{'Content-Type':'application json',token:token}
       })
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       getStatus();
     }
 
@@ -32,7 +32,7 @@ const SingleEvent = ({event}) => {
         headers:{'Content-Type':'application json',token:token}
       })
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       getStatus();
     }
     
@@ -44,7 +44,7 @@ const SingleEvent = ({event}) => {
       headers:{'Content-Type':'application json',token:token}
     })
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     setStatus(data);
   }
 

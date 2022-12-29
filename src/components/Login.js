@@ -36,7 +36,7 @@ const Login = () => {
     console.log(data);
     if (data && data.token) {
       dispatch(setToken(data.token));
-      dispatch(addUser(data.user));
+      dispatch(addUser(data.user.username));
       localStorage.setItem("token", data.token);
       navigate("/");
     } else {
