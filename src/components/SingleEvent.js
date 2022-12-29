@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { backendUrl } from '../App';
 import './SingleEvent.css';
 // import {backendUrl} from ''
@@ -67,7 +67,7 @@ const SingleEvent = ({event}) => {
           {isPast && <p>Event Finished</p>}
           <p>Total Seats : {event.totalSeats}</p>
           <p>Available Seats : {event.totalSeats - event.currentParticipants.length}</p>
-        <button className='card-link btn-outline-primary btn'>More Details</button>
+        <Link className='card-link btn-outline-primary btn' to={`/myevents/${event._id}`}>More Details</Link>
         {!isPast && <button className='card-link btn-outline-success btn' onClick={handleAction}>{status}</button>}
         {isPast && <button className='card-link btn-outline-success btn disabled'>Finished</button>}
         </div>

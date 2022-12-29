@@ -2,14 +2,16 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {BrowserRouter,Routes,Route, useNavigate} from 'react-router-dom';
 import CreateEvent from './components/CreateEvent';
+import EventDetail from './components/EventDetail';
 import Home from './components/Home';
 import Login from './components/Login';
 import MyEvents from './components/MyEvents';
 import Participate from './components/Participate';
 import Pending from './components/Pending';
 import SignUp from './components/SignUp';
+import SingleEvent from './components/SingleEvent';
 import { addUser, setToken } from './redux/userSlice';
-export const backendUrl = process.env.backendUrl || 'http://localhost:5000';
+export const backendUrl = 'https://sport-app-rahul77.onrender.com';
 
 function App() {
   const token = useSelector(state=> state.token);
@@ -49,6 +51,7 @@ function App() {
           <Route path='/myevents' element={<MyEvents />} />
           <Route path='/participate' element={<Participate />} />
           <Route path='/pending' element={<Pending />} />
+          <Route path='/myevents/:eventId' element={<EventDetail />} />
         </Routes>
       </BrowserRouter>
     </div>
