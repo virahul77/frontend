@@ -19,28 +19,27 @@ const Login = () => {
     if (password.length < 5) {
       return alert("username must be alteast 5 character long");
     }
-    console.log(username, password);
-    console.log(`${backendUrl}/user/register`);
-
-    const res = await fetch(`${backendUrl}/user/login`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    });
-    const data = await res.json();
-    console.log(data);
-    if (data && data.token) {
-      dispatch(setToken(data.token));
-      dispatch(addUser(data.user.username));
-      localStorage.setItem("token", data.token);
-      navigate("/");
-    } else {
-      return alert("username already exist");
+    try {
+      const res = await fetch(`${backendUrl}/user/login`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data && data.token) {
+        dispatch(setToken(data.token));
+        dispatch(addUser(data.user.username));
+        localStorage.setItem("token", data.token);
+        navigate("/");
+      } else {return alert(data.msg)}
+    } catch (error) {
+      return alert(error.message);
     }
   };
   return (

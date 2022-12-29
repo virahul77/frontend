@@ -32,7 +32,7 @@ const MyEvents = () => {
     <NavBar />
     <div className="container mt-3">
         <h2>My Events</h2>
-        <div className="row d-flex justify-content-between">
+        <div className="row d-flex justify-content-start">
         {myEvents.map(event=> {
             return <SingleEvent key={event._id} event={event}/>
         })}

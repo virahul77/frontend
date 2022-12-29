@@ -12,6 +12,9 @@ const CreateEvent = () => {
   const [eventName,setEventName] = useState('cricket');
   const [totalSeats,setTotalSeats] = useState('');
   const [description,setDescription] = useState('');
+  const [venue,setVenue] = useState('');
+  const [date,setDate] = useState(new Date().toLocaleDateString());
+  console.log(date);
 
   const submitHandler = async (e)=> {
     e.preventDefault();
@@ -25,16 +28,23 @@ const CreateEvent = () => {
     if(description.length<8){
         return alert('Please add a description upto 8 characters')
     }
+    if(!venue) {
+      return alert('Please enter a venue')
+    }
+    if(new Date(date) < Date.now()-3600) {
+      return alert('date can not be smaller than today');
+    }
     const res = await fetch(`${backendUrl}/event/createevent`,{
         method:'post',
         headers:{
-            'Content-Type':'application/json',
-            token
+          'Content-Type':'application/json',
+          token
         },
-        body:JSON.stringify({eventName,totalSeats,description})
+        body:JSON.stringify({eventName,totalSeats,description,startDate:date,venue})
     });
     const data = await res.json();
     console.log(data);
+    alert('event created successfully');
   }
   return (
     <>
@@ -54,6 +64,18 @@ const CreateEvent = () => {
           <label htmlFor="totalseats" className="form-label">Total Participants</label>
           <input type="number" className="form-control" id="totalseats" placeholder="enter number of participants"
             value={totalSeats} onChange={(e)=>setTotalSeats(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="venue" className="form-label">Venue</label>
+          <input type="text" className="form-control" id="venue" placeholder="enter venue of event"
+            value={venue} onChange={(e)=>{setVenue(e.target.value)}}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="dateevent" className="form-label">Start Date</label>
+          <input type="date" className="form-control" id="dateevent"
+            value={date} onChange={(e)=>setDate(e.target.value)}
           />
         </div>
         <div className="mb-3">
