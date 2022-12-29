@@ -11,6 +11,7 @@ import Pending from './components/Pending';
 import SignUp from './components/SignUp';
 import { addUser, setToken } from './redux/userSlice';
 export const backendUrl = 'https://sport-app-rahul77.onrender.com';
+// export const backendUrl = 'http://localhost:5000';
 
 function App() {
   const token = useSelector(state=> state.token);

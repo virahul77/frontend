@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { backendUrl } from '../App';
+import MyEvDetail from './MyEvDetail';
 import NavBar from './NavBar';
-import SingleEvent from './SingleEvent';
+// import SingleEvent from './SingleEvent';
 
 const MyEvents = () => {
   const navigate = useNavigate();
@@ -18,7 +19,6 @@ const MyEvents = () => {
         },
     })
     const data = await res.json();
-    console.log(data);
     
     if(data && data[0] &&data[0]['_id']) setMyEvents(data);
   }
@@ -26,7 +26,7 @@ const MyEvents = () => {
   useEffect(()=>{
     fetchMyEvents();
   },[])
-  console.log(myEvents);
+  
   return (
     <>
     <NavBar />
@@ -34,7 +34,7 @@ const MyEvents = () => {
         <h2>My Events</h2>
         <div className="row d-flex justify-content-start">
         {myEvents.map(event=> {
-            return <SingleEvent key={event._id} event={event}/>
+            return <MyEvDetail key={event._id} event={event}/>
         })}
         </div>
     </div>
