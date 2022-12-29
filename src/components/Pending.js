@@ -27,6 +27,7 @@ const Pending = () => {
       <NavBar />
       <div className="container mt-3">
         <h2 className='mb-3'>Your Pending Events</h2>
+        <p>You will added to sport once admin approve your request</p>
         <div className="row d-flex justify-content-start">
           {events.map((event) => {
             return <SingleEvent key={event._id} event={event} />;
