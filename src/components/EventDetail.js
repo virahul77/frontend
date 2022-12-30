@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
 import { backendUrl } from '../App';
 import NavBar from './NavBar'
+import PartEventDetails from './PartEventDetails';
 
 const EventDetail = () => {
   const params = useParams();
@@ -26,7 +27,9 @@ const EventDetail = () => {
   return (
     <div>
         <NavBar />
-        Single Event
+        <div className="container mt-3">
+          <PartEventDetails eventId={eventId}/>
+        </div>
     </div>
   )
 }
