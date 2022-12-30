@@ -69,7 +69,7 @@ const SingleEvent = ({event}) => {
           {!isPast && <p>Available Seats : {event.totalSeats - event.currentParticipants.length}</p>}
           {isPast && <p>Available Seats : N/A</p>}
         <Link className='card-link btn-outline-primary btn' to={`/myevents/${event._id}`}>More Details</Link>
-        {!isPast && <button className='card-link btn-outline-success btn' onClick={handleAction}>{status}</button>}
+        {!isPast && <button className='card-link btn-outline-success btn' disabled={status==='Participated'} onClick={handleAction}>{status}</button>}
         {isPast && <button className='card-link btn-outline-success btn disabled'>Finished</button>}
         </div>
         </div>
