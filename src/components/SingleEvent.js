@@ -7,10 +7,8 @@ import './SingleEvent.css';
 
 const SingleEvent = ({event}) => {
   const token = useSelector(state => state.token);
-  // const user = useSelector(state => state.user);
   const navigate = useNavigate();
   const isPast = new Date(event.startDate)<Date.now();
-  // console.log(event);
   const [status,setStatus] = useState('Request to Join');
   const handleAction = async ()=> {
     try {
@@ -19,7 +17,7 @@ const SingleEvent = ({event}) => {
           method:'put',
           headers:{'Content-Type':'application json',token:token}
         })
-        const data = await res.json();
+        await res.json();
         // console.log(data);
         getStatus();
       }
@@ -32,7 +30,7 @@ const SingleEvent = ({event}) => {
           method:'put',
           headers:{'Content-Type':'application json',token:token}
         })
-        const data = await res.json();
+        await res.json();
         // console.log(data);
         getStatus();
       }
@@ -51,6 +49,7 @@ const SingleEvent = ({event}) => {
     const data = await res.json();
     // console.log(data);
     setStatus(data);
+    // console.log(event);
   }
 
   useEffect(()=>{
