@@ -34,6 +34,7 @@ const PartEventDetails = ({eventId}) => {
           {isPast && <p>Event Finished</p>}
           {!isPast && <p>Total Seats : {event.totalSeats}</p>}
           {!isPast && <p>Available Seats : {event.totalSeats - event.currentParticipants?.length}</p>}
+          <p>Venue : {event.venue}</p>
           <p>Description : {event.description}</p>
           
           {event.participated && <div>

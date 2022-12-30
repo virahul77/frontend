@@ -59,7 +59,8 @@ const MyEvDetail = ({event}) => {
           {!isPast && <p>Start Date: {new Date(event.startDate).toLocaleDateString()}</p>}
           {isPast && <p>Event Finished</p>}
           <p>Total Seats : {event.totalSeats}</p>
-          <p>Available Seats : {event.totalSeats - event.currentParticipants.length}</p>
+          {!isPast && <p>Available Seats : {event.totalSeats - event.currentParticipants.length}</p>}
+          <p>Venue :- {event.venue}</p>
           <p>Description : {event.description}</p>
           <div>
             <p>Pending Users</p>

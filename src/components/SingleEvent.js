@@ -63,6 +63,7 @@ const SingleEvent = ({event}) => {
         <div className='card-body'>
           <h5 className="card-title">{event.eventName}</h5>
           <p>Orgainsed by - {event.createdBy.username}</p>
+          <p>Venue - {event.venue}</p>
           {!isPast && <p>Start Date: {new Date(event.startDate).toLocaleDateString()}</p>}
           {isPast && <p>Event Finished</p>}
           <p>Total Seats : {event.totalSeats}</p>
