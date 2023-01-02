@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { backendUrl } from "../App";
+import Loader from "./Loader";
 import NavBar from "./NavBar";
 import SingleEvent from "./SingleEvent";
 
 const Home = () => {
   const token = useSelector((state) => state.token);
+  const [isLoading, setIsLoading] = useState(false);
   const [allEvents, setEvents] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ const Home = () => {
     if (!token) {
       return navigate("/login");
     }
+    setIsLoading(true);
     const res = await fetch(`${backendUrl}/event/allevents`, {
       method: "get",
       headers: {
@@ -23,6 +26,7 @@ const Home = () => {
     const data = await res.json();
 
     if (data && data[0] && data[0]["_id"]) setEvents(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -61,9 +65,10 @@ const Home = () => {
           </div>
         </div>
         <div className="row d-flex justify-content-start">
-          {filteredEvents.map((event) => {
+          {!isLoading && filteredEvents.map((event) => {
             return <SingleEvent key={event._id} event={event} />;
           })}
+          {isLoading && <Loader />}
         </div>
       </div>
     </>

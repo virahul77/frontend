@@ -4,15 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { backendUrl } from "../App";
 import { addUser, setToken } from "../redux/userSlice";
 import "./css/SignUp.css";
+import Loader from "./Loader";
 
 const SignUp = () => {
-  const state = useSelector((state) => state);
+  const state = useSelector(state => state);
   console.log(state);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading,setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     if (username.length < 4) {
       return alert("username must be alteast 4 character long");
@@ -20,10 +22,10 @@ const SignUp = () => {
     if (password.length < 5) {
       return alert("username must be alteast 5 character long");
     }
-    // console.log(username, password);
-    // console.log(`${backendUrl}/user/register`);
 
-    const res = await fetch(`${backendUrl}/user/register`, {
+    setIsLoading(true);
+
+    fetch(`${backendUrl}/user/register`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -32,24 +34,27 @@ const SignUp = () => {
         username,
         password,
       }),
-    });
-    const data = await res.json();
-    console.log(data);
-    if (data && data.token) {
+    }).then(res => res.json())
+    .then(data=> {
+      setIsLoading(false);
+      console.log(data);
+      if (data && data.token) {
       dispatch(setToken(data.token));
       dispatch(addUser(data.user.username));
       localStorage.setItem("token", data.token);
       navigate("/");
-    } else {
-      return alert("username already exist");
-    }
+      } else {alert("username already exist");}
+    }).catch(err=>{
+      setIsLoading(false);
+      alert(err.message);
+    })
   };
   return (
     <div className="register">
       <div className="register-container">
         {/* <h1>Welcome to Sports Club</h1> */}
         <h1>Create Account</h1>
-        <form onSubmit={submitHandler}>
+        {!isLoading && <form onSubmit={submitHandler}>
         <h3>User Name</h3>
           <input
             type="text"
@@ -71,7 +76,8 @@ const SignUp = () => {
               <p>Sign In</p>
             </Link>
           </div>
-        </form>
+        </form>}
+        {isLoading && <Loader />}
       </div>
     </div>
   );

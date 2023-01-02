@@ -15,7 +15,7 @@ const MyEvents = () => {
     const res = await fetch(`${backendUrl}/event/myevents`,{
         method:'get',
         headers:{
-            token:token
+          token:token
         },
     })
     const data = await res.json();

@@ -1,10 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addUser, setToken } from "../redux/userSlice";
 
 const NavBar = () => {
   const user = useSelector(state => state.user);
-  // console.log(user);
+  const dispatch = useDispatch();
+  const handleLogout = ()=> {
+    dispatch(addUser(''));
+    dispatch(setToken(''));
+  }
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-primary text-light">
@@ -57,9 +62,9 @@ const NavBar = () => {
               </li>
             </ul>
             <form className="d-flex" role="search">
-              <Link className="btn btn-danger" to='/login'>
+              <button className="btn btn-danger" onClick={handleLogout}>
                 Logout
-              </Link>
+              </button>
             </form>
           </div>
         </div>

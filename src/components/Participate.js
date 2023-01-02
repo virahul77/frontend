@@ -4,21 +4,27 @@ import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
 import { backendUrl } from '../App';
 import PartEventDetails from './PartEventDetails';
+import Loader from './Loader';
 
 const Participate = () => {
   const token = useSelector(state=> state.token);
+  const [isLoading,setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [partEvents,setPartEvents] = useState([]);
   const getParticipatedEvents = ()=> {
     if(!token) return navigate('/login');
+    setIsLoading(true);
     fetch(`${backendUrl}/event/participated`,{
       headers:{token:token}
     }).then(res => res.json())
     .then(data => {
-      // console.log(data);
+      setIsLoading(false);
       setPartEvents(data);
     })
-    .catch(err=>console.log(err.message))
+    .catch(err=>{
+      setIsLoading(false);
+      console.log(err.message)
+    })
   }
 
   useEffect(()=>{
@@ -30,13 +36,12 @@ const Participate = () => {
       <NavBar />
       <div className="container mt-3">
         <h2 className='mb-3'>Your Participated Events</h2>
-
-        {partEvents.map(eventId=>{
+        {isLoading && <Loader />}
+        {!isLoading && partEvents.map(eventId=>{
           return <PartEventDetails eventId={eventId} key={eventId}/>
         })}
 
-
-        {partEvents.length===0 && <h5>No participated events</h5>}
+        {!isLoading && partEvents.length===0 && <h5>No participated events</h5>}
       </div>
     </div>
   )

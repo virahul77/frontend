@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {BrowserRouter,Routes,Route, useNavigate} from 'react-router-dom';
+import {BrowserRouter,Routes,Route, useNavigate, Navigate} from 'react-router-dom';
 import CreateEvent from './components/CreateEvent';
 import EventDetail from './components/EventDetail';
 import Home from './components/Home';
@@ -19,7 +19,6 @@ function App() {
   const dispatch = useDispatch();
   const getUserInfo = async ()=> {
     try {
-      // if(!token) return window.location.replace('/login');
       const res = await fetch(`${backendUrl}/user/info`, {
         headers: {
           token: token
@@ -27,13 +26,11 @@ function App() {
       });
       if(!res.ok) return;
       const data = await res.json();
-      // console.log(data);
       dispatch(addUser(data))
     } catch (error) {
       console.log(error.message,'error');
       dispatch(addUser(''));
       dispatch(setToken(''));
-      // return window.location.replace('/login');
     }
   }
 
@@ -47,7 +44,7 @@ function App() {
           <Route path='/' element={user?<Home />:<Login />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/createevent' element={user?<CreateEvent />:<Login />} />
+          <Route path='/createevent' element={user?<CreateEvent />:<Navigate to='/login' />} />
           <Route path='/myevents' element={<MyEvents />} />
           <Route path='/participate' element={<Participate />} />
           <Route path='/pending' element={<Pending />} />
