@@ -7,23 +7,7 @@ import PartEventDetails from './PartEventDetails';
 
 const EventDetail = () => {
   const params = useParams();
-  const navigate = useNavigate();
-  const {user,token} = useSelector(state => state);
   const eventId = params.eventId;
-  const getEventDetail = async()=> {
-    if(!token) navigate('/login');
-    const res = await fetch(`${backendUrl}/event/single/${eventId}`,{
-        headers:{token:token}
-      })
-
-      const data = await res.json();
-      console.log(data);
-  }
-
-  useEffect(()=>{
-    getEventDetail();
-  },[])
-  console.log(eventId);
   return (
     <div>
         <NavBar />

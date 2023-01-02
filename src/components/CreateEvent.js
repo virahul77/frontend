@@ -4,19 +4,20 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import NavBar from './NavBar';
 import Login from './Login';
+import Loader from './Loader';
 
 const CreateEvent = () => {
   const navigate = useNavigate();
 
   const token = useSelector(state=>state.token);
-  const user = useSelector(state=>state.user);
 
   const [eventName,setEventName] = useState('cricket');
   const [totalSeats,setTotalSeats] = useState('');
   const [description,setDescription] = useState('');
   const [venue,setVenue] = useState('');
   const [date,setDate] = useState(new Date().toLocaleDateString());
-  console.log(date);
+  // console.log(date);
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitHandler = async (e)=> {
     e.preventDefault();
@@ -36,6 +37,7 @@ const CreateEvent = () => {
     if(new Date(date) < Date.now()-3600) {
       return alert('date can not be smaller than today');
     }
+    setIsLoading(true);
     const res = await fetch(`${backendUrl}/event/createevent`,{
         method:'post',
         headers:{
@@ -45,18 +47,24 @@ const CreateEvent = () => {
         body:JSON.stringify({eventName,totalSeats,description,startDate:date,venue})
     });
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
+    setIsLoading(false);
+    //Reset Form
+    setDescription('');
+    setTotalSeats('');
+    setVenue('');
     alert('event created successfully');
   }
   useEffect(()=>{
-    if(!token || !user) navigate('/login');
+    if(!token) navigate('/login');
   },[])
   return (
     <>
     <NavBar/>
     <div className='container mt-3 mb-3'>
         <h2 className='mob-3'>Create an Event</h2>
-        <form onSubmit={submitHandler}>
+        {isLoading && <Loader />}
+        {!isLoading && <form onSubmit={submitHandler}>
         <p>Select Sport :</p>
         <select className='form-select form-select-lg mb-3' value={eventName} onChange={(e)=>setEventName(e.target.value)}>
             <option value="cricket">Cricket</option>
@@ -91,25 +99,10 @@ const CreateEvent = () => {
           ></textarea>
         </div>
         <button className='btn btn-outline-success' type='submit'>Create Event</button>
-        </form>
+        </form>}
     </div>
     </>
   )
 }
 
-const form = ()=> {
-  return (
-    <>
-      <div className="mb-3">
-      <label htmlFor="exampleFormControlInput1" className="form-label">Email address</label>
-      <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
-    </div>
-    <div className="mb-3">
-      <label htmlFor="exampleFormControlTextarea1" className="form-label">Example textarea</label>
-      <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-    </div>
-    </>
-  )
-}
-
-export default CreateEvent
+export default CreateEvent;

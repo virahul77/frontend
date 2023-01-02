@@ -2,29 +2,37 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { backendUrl } from '../App';
+import Loader from './Loader';
 
 const PartEventDetails = ({eventId}) => {
   const [event,setEvent] = useState({});
+  const[isLoading,setIsLoading] = useState(false);
   let isPast = new Date(event.startDate)<Date.now();
   const token = useSelector(state=>state.token);
   const navigate = useNavigate();
-  const getEventDetail = async()=> {
+  const getEventDetail = ()=> {
     if(!token) navigate('/login');
+    setIsLoading(true);
     fetch(`${backendUrl}/event/single/${eventId}`,{
         headers:{token:token}
     }).then(res=>res.json())
     .then(data=>{
+        setIsLoading(false);
         setEvent(data);
-    }).catch(err=>console.log(err.message));
+    }).catch(err=>{
+      setIsLoading(false);
+      console.log(err.message)
+    });
   }
-  console.log(event);
+  // console.log(event);
 
   useEffect(()=>{
     getEventDetail();
   },[])
   return (
     <div className='mb-4'>
-      <div className='card w-60' style={{overflow:'hidden'}}>
+      {isLoading && <Loader />}
+      {!isLoading && <div className='card w-60' style={{overflow:'hidden'}}>
         <img src={event.image} alt="event pic" style={{height:'500px'}} />
         <div className='card-body'>
           <h5 className="card-title">{event.eventName}</h5>
@@ -52,7 +60,7 @@ const PartEventDetails = ({eventId}) => {
           </div>}
           {isPast && <button className='card-link btn-outline-success btn disabled'>Finished</button>}
         </div>
-        </div>
+        </div>}
     </div>
   )
 }
